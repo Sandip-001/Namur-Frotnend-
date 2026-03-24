@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -43,12 +44,14 @@ import 'provider/language_provider.dart';
 
 /// 🔥 Background FCM handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   print("🔥 Background notification received: ${message.notification?.title}");
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
